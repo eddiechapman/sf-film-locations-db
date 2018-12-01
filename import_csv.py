@@ -93,6 +93,18 @@ def create_people(people):
     return people_nodes
 
 
+def create_organizations(organizations):
+    organization_nodes = []
+
+    for name in organizations:
+        organization = Organization()
+        organization.name = name
+        organization.organization = True
+        organization_nodes.append(organization)
+
+    return organization_nodes
+
+
 if __name__ == '__main__':
 
     set_working_directory()
