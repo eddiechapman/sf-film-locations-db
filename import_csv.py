@@ -104,9 +104,11 @@ def label_node(graph, name, label):
 
 def assign_labels(reader):
     """
-    Iterate through dataset and assign labels to person entities based on column.
+    Iterate through dataset and assign labels to entities based on column.
     """
     for row in reader:
+        label_node(graph, row['producer'], 'producer')
+        label_node(graph, row['distributor'], 'distributor')
         label_node(graph, row['director'], 'director')
         label_node(graph, row['writer'], 'writer')
         label_node(graph, row['actor_1'], 'actor')
