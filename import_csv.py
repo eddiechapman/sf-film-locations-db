@@ -28,7 +28,6 @@ def list_films(reader):
         title, release_year = row[:3]
         if title not in films:
             films[title] = {'title': title, 'release_year': release_year}
-
     return films
 
 
@@ -40,7 +39,6 @@ def list_people(reader):
         people.add(row['actor_1'])
         people.add(row['actor_2'])
         people.add(row['actor_3'])
-
     return list(people)
 
 
@@ -49,19 +47,16 @@ def list_organizations(reader):
     for row in reader:
         organizations.add(row['producer'])
         organizations.add(row['distributor'])
-
     return list(organizations)
 
 
 def list_locations(reader):
     locations = set(row['locations'] for row in reader)
-
     return list(locations)
 
 
 def list_fun_facts(reader):
     fun_facts = set(row['locations'] for row in reader)
-
     return list(fun_facts)
 
 
@@ -69,52 +64,32 @@ def create_films(films):
     """
     Create node objects for the deduplicated films.
     """
-    film_nodes = []
-
     for film_info in films.keys:
         film = Film(film_info)
         film.title = films['title']
         film.release_year = int(films['release_year'])
         film.film = True
-        film_nodes.append(film)
-
-    return film_nodes
 
 
 def create_people(people):
-    people_nodes = []
-
     for name in people:
         person = Person()
         person.name = name
         person.person = True
-        people_nodes.append(person)
-
-    return people_nodes
 
 
 def create_organizations(organizations):
-    organization_nodes = []
-
     for name in organizations:
         organization = Organization()
         organization.name = name
         organization.organization = True
-        organization_nodes.append(organization)
-
-    return organization_nodes
 
 
 def create_locations(locations):
-    location_nodes = []
-
     for name in locations:
         location = Location()
         location.name = name
         location.location = True
-        location_nodes.append(location)
-
-    return location_nodes
 
 
 def label_node(graph, name, label):
@@ -125,7 +100,6 @@ def label_node(graph, name, label):
     if node is None or label in node.labels:
         return
     node.labels.add(label)
-
 
 
 if __name__ == '__main__':
