@@ -102,7 +102,7 @@ def label_node(graph, name, label):
     node.labels.add(label)
 
 
-def assign_labels(reader):
+def assign_labels(reader, graph):
     """
     Iterate through dataset and assign labels to entities based on column.
     """
