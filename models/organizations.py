@@ -4,26 +4,23 @@ from models.film import Film
 
 
 class Distributor(GraphObject):
-    '''
+    """
     Represents a distribution company in the San Francisco Film Locations dataset.
-    '''
+    """
     __primarykey__ = 'name'
 
     name = Property()
     organization = Label()
     distributor = Label()
 
-    organization = True
-    distributor = True
-
     distributed = RelatedTo(Film)
     distributed_by = RelatedFrom(Film)
 
 
 class Producer(GraphObject):
-    '''
+    """
     Represents a production company in the San Francisco Film Locations dataset.
-    '''
+    """
     __primarykey__ = 'name'
 
     name = Property()

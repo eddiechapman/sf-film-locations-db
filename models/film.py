@@ -6,9 +6,9 @@ from .facts import FunFact
 
 
 class Film(GraphObject):
-    '''
+    """
     Represents a film in the San Francisco Film Locations dataset.
-    '''
+    """
     __primarykey__ = 'title'
 
     title = Property()
