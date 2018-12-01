@@ -1,5 +1,8 @@
 from py2neo.ogm import Property, GraphObject, Label, RelatedTo
-
+from .people import Actor, Director, Writer
+from .organizations import Producer, Distributor
+from .locations import Location
+from .facts import FunFact
 
 class Film(GraphObject):
     '''
