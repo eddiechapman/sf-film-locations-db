@@ -1,4 +1,4 @@
-from py2neo.ogm import Property, GraphObject, RelatedTo
+from py2neo.ogm import Property, GraphObject, Label, RelatedTo
 
 
 class Film(GraphObject):
@@ -9,6 +9,9 @@ class Film(GraphObject):
 
     title = Property()
     release_year = Property()
+    film = Label()
+
+    film = True
 
     directed_by = RelatedTo(Director)
     distributed_by = RelatedTo(Distributor)
