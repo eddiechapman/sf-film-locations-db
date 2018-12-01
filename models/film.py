@@ -1,8 +1,9 @@
-from py2neo.ogm import Property, GraphObject, Label, RelatedTo
+from py2neo.ogm import Property, GraphObject, Label, RelatedTo, RelatedFrom
 from .people import Actor, Director, Writer
 from .organizations import Producer, Distributor
 from .locations import Location
 from .facts import FunFact
+
 
 class Film(GraphObject):
     '''
@@ -23,3 +24,11 @@ class Film(GraphObject):
     produced_by = RelatedTo(Producer)
     filmed_at = RelatedTo(Location)
     has_fact = RelatedTo(FunFact)
+
+    directed = RelatedFrom(Director)
+    distributed = RelatedFrom(Distributor)
+    wrote = RelatedFrom(Writer)
+    starred_in = RelatedFrom(Actor)
+    produced = RelatedFrom(Producer)
+    location_for = RelatedFrom(Location)
+    happened_during = RelatedFrom(FunFact)
