@@ -3,8 +3,8 @@ import os
 
 from py2neo import Graph
 from .film import Film
-from .people import Actor, Director, Writer
-from .organizations import Producer, Distributor
+from .people import Person
+from .organizations import Organization
 from .locations import Location
 from .facts import FunFact
 
@@ -82,7 +82,15 @@ def create_films(films):
 
 
 def create_people(people):
+    people_nodes = []
 
+    for name in people:
+        person = Person()
+        person.name = name
+        person.person = True
+        people_nodes.append(person)
+
+    return people_nodes
 
 
 if __name__ == '__main__':
