@@ -102,6 +102,18 @@ def label_node(graph, name, label):
     node.labels.add(label)
 
 
+def assign_labels(reader):
+    """
+    Iterate through dataset and assign labels to person entities based on column.
+    """
+    for row in reader:
+        label_node(graph, row['director'], 'director')
+        label_node(graph, row['writer'], 'writer')
+        label_node(graph, row['actor_1'], 'actor')
+        label_node(graph, row['actor_2'], 'actor')
+        label_node(graph, row['actor_3'], 'actor')
+
+
 if __name__ == '__main__':
 
     set_working_directory()
