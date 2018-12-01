@@ -105,6 +105,18 @@ def create_organizations(organizations):
     return organization_nodes
 
 
+def create_locations(locations):
+    location_nodes = []
+
+    for name in locations:
+        location = Location()
+        location.name = name
+        location.location = True
+        location_nodes.append(location)
+
+    return location_nodes
+
+
 if __name__ == '__main__':
 
     set_working_directory()
