@@ -1,4 +1,4 @@
-from py2neo.ogm import Property, GraphObject, Label, RelatedTo
+from py2neo.ogm import Property, GraphObject, Label, RelatedFrom, RelatedTo
 
 from models.film import Film
 
@@ -17,6 +17,7 @@ class Actor(GraphObject):
     actor = True
 
     starred_in = RelatedTo(Film)
+    starring = RelatedFrom(Film)
 
 
 class Writer(GraphObject):
@@ -33,6 +34,7 @@ class Writer(GraphObject):
     actor = True
 
     wrote = RelatedTo(Film)
+    written_by = RelatedFrom(Film)
 
 
 class Director(GraphObject):
@@ -49,3 +51,4 @@ class Director(GraphObject):
     director = True
 
     directed = RelatedTo(Film)
+    directed_by = RelatedFrom(Film)
