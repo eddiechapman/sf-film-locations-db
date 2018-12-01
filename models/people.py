@@ -1,4 +1,4 @@
-from film import Film
+from models.film import Film
 from py2neo.ogm import Property, GraphObject, Label, RelatedTo
 
 
