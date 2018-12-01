@@ -32,6 +32,31 @@ def list_films(reader):
     return films
 
 
+def list_locations(reader):
+    locations = set(row['locations'] for row in reader)
+
+    return list(locations)
+
+def list_people(reader):
+    people = set()
+    for row in reader:
+        people.add(row['director'])
+        people.add(row['writer'])
+        people.add(row['actor_1'])
+        people.add(row['actor_2'])
+        people.add(row['actor_3'])
+
+    return list(people)
+
+
+def list_organizations(reader):
+    return set(row['director'] for row in reader)
+
+
+def list_fun_facts(reader):
+    return set(row['locations'] for row in reader)
+
+
 def create_films(films):
     """
     Create node objects for the deduplicated films.
@@ -48,12 +73,6 @@ def create_films(films):
     return film_nodes
 
 
-
-def list_film_location_and_fact(reader):
-    film_location_and_fact = {}
-
-
-
 if __name__ == '__main__':
 
     set_working_directory()
@@ -63,5 +82,13 @@ if __name__ == '__main__':
 
     with open('Film_Locations_In_San_Francisco.csv') as csv_file:
         reader = DictReader(csv_file)
+
         films = list_films(reader)
+        locations = list_locations(reader)
+        producers = list_producers(reader)
+        directors = list_directors(reader)
+        writers = list_writers(reader)
+        actors = list_actors(reader)
+
+        film_nodes = create_films(films)
 
