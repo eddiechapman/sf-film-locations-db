@@ -1,4 +1,4 @@
-from py2neo.ogm import Property, GraphObject, Label, RelatedTo
+from py2neo.ogm import Property, GraphObject, Label, RelatedFrom, RelatedTo
 
 from models.film import Film
 from models.locations import Location
@@ -17,3 +17,7 @@ class FunFact(GraphObject):
 
     happened_during = RelatedTo(Film)
     happened_at = RelatedTo(Location)
+
+    has_fact = RelatedTo(Film)
+    has_fact = RelatedTo(Location)
+
