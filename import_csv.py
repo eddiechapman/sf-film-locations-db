@@ -17,6 +17,20 @@ def set_working_directory():
     os.chdir(dir_name)
 
 
+def list_films(reader):
+    """
+    Create a list of unique film titles and their release years.
+    Avoids cases where a film is associated with multiple release years.
+    """
+    films = {}
+    for row in reader:
+        title, release_year = row[:3]
+        if title not in films:
+            films[title] = release_year
+
+    return films
+
+
 if __name__ == '__main__':
 
     set_working_directory()
