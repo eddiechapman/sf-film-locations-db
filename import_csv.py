@@ -32,11 +32,6 @@ def list_films(reader):
     return films
 
 
-def list_locations(reader):
-    locations = set(row['locations'] for row in reader)
-
-    return list(locations)
-
 def list_people(reader):
     people = set()
     for row in reader:
@@ -50,11 +45,24 @@ def list_people(reader):
 
 
 def list_organizations(reader):
-    return set(row['director'] for row in reader)
+    organizations = set()
+    for row in reader:
+        organizations.add(row['producer'])
+        organizations.add(row['distributor'])
+
+    return list(organizations)
+
+
+def list_locations(reader):
+    locations = set(row['locations'] for row in reader)
+
+    return list(locations)
 
 
 def list_fun_facts(reader):
-    return set(row['locations'] for row in reader)
+    fun_facts = set(row['locations'] for row in reader)
+
+    return list(fun_facts)
 
 
 def create_films(films):
@@ -71,6 +79,10 @@ def create_films(films):
         film_nodes.append(film)
 
     return film_nodes
+
+
+def create_people(people):
+
 
 
 if __name__ == '__main__':
