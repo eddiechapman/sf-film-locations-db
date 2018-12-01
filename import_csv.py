@@ -117,6 +117,17 @@ def create_locations(locations):
     return location_nodes
 
 
+def label_node(graph, name, label):
+    """
+    Label a node if the node exists and does not already have the label.
+    """
+    node = graph.nodes.get(name)
+    if node is None or label in node.labels:
+        return
+    node.labels.add(label)
+
+
+
 if __name__ == '__main__':
 
     set_working_directory()
