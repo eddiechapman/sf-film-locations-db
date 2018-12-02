@@ -12,33 +12,51 @@ def set_working_directory():
     os.chdir(dir_name)
 
 
-def find_or_create_node(label, key, value):
+def find_or_create_node(label, value):
     """
     Return a node by retrieving or creating one using CSV values.
     Returns none when CSV cell value is blank.
     New nodes are merged with the database.
     """
-    if value is None:
+    if value in (None, ''):
         return None
-    match = matcher.match(label, key=value)
-    if match.first() is None:
-        node = Node(label, key=value)
-        transaction.merge(node, primary_label=label, primary_key=key)
+
+    # For some reason the attribute name (title, fun_facts, or name) would not work when
+    # a function parameter was used. So this a dumb repetitive work around.
+    if label is 'film':
+        match = matcher.match(label, title=value)
+        if match.first() is None:
+            node = Node(label, title=value)
+            transaction.create(node)
+        else:
+            node = match.first()
+
+    elif label is 'fun_facts':
+        match = matcher.match(label, fun_facts=value)
+        if match.first() is None:
+            node = Node(label, fun_facts=value)
+            transaction.create(node)
+        else:
+            node = match.first()
+
     else:
-        node = match.first()
+        match = matcher.match(label, name=value)
+        if match.first() is None:
+            node = Node(label, name=value)
+            transaction.create(node)
+        else:
+            node = match.first()
+
     return node
 
 
 def add_label(node, label):
     """
     Add a secondary label to an existing node.
-
-    Check if node is not null from search/creation function and that
-    label is not already applied.
     """
     if node is None or label in node.labels:
         return
-    node.labels.add(label)
+    node.add_label(label)
     transaction.merge(node, primary_label=label)
 
 
@@ -55,27 +73,29 @@ def create_relationship(node1, relationship_type, node2):
 if __name__ == '__main__':
     set_working_directory()
 
-    graph = Graph("bolt://localhost:7687", auth=('neo4j', 'test'))
+    graph = Graph("bolt://000000", auth=('neo4j', 'test'))
 
     # Use to retrieve existing nodes
     matcher = NodeMatcher(graph)
 
     with open('Film_Locations_in_San_Francisco.csv') as csv_file:
-        reader = DictReader(csv_file)
+
+        fieldnames = ['title', 'release_year', 'location', 'fun_facts', 'producer', 'distributor', 'director', 'writer', 'actor_1', 'actor_2', 'actor_3']
+        reader = DictReader(csv_file, fieldnames=fieldnames)
         for row in reader:
 
             transaction = graph.begin()
 
-            film = find_or_create_node('film', 'title', row['title'])
-            location = find_or_create_node('location', 'name', row['location'])
-            fun_fact = find_or_create_node('fun_fact', 'fun_fact', row['fun_fact'])
-            producer = find_or_create_node('organization', 'name', row['producer'])
-            distributor = find_or_create_node('organization', 'name', row['distributor'])
-            director = find_or_create_node('person', 'name', row['director'])
-            writer = find_or_create_node('person', 'name', row['writer'])
-            actor_1 = find_or_create_node('person', 'name', row['actor_1'])
-            actor_2 = find_or_create_node('person', 'name', row['actor_2'])
-            actor_3 = find_or_create_node('person', 'name', row['actor_3'])
+            film = find_or_create_node('film', row['title'])
+            location = find_or_create_node('location', row['location'])
+            fun_facts = find_or_create_node('fun_facts', row['fun_facts'])
+            producer = find_or_create_node('organization', row['producer'])
+            distributor = find_or_create_node('organization', row['distributor'])
+            director = find_or_create_node('person', row['director'])
+            writer = find_or_create_node('person', row['writer'])
+            actor_1 = find_or_create_node('person', row['actor_1'])
+            actor_2 = find_or_create_node('person', row['actor_2'])
+            actor_3 = find_or_create_node('person', row['actor_3'])
 
             add_label(producer, 'producer')
             add_label(distributor, 'distributor')
@@ -101,10 +121,10 @@ if __name__ == '__main__':
             create_relationship(film, 'produced_by', producer)
             create_relationship(location, 'location_for', film)
             create_relationship(film, 'filmed_at', location)
-            create_relationship(fun_fact, 'happened_at', location)
-            create_relationship(fun_fact, 'happened_during', film)
-            create_relationship(film, 'has_fact', fun_fact)
-            create_relationship(location, 'has_fact', fun_fact)
+            create_relationship(fun_facts, 'happened_at', location)
+            create_relationship(fun_facts, 'happened_during', film)
+            create_relationship(film, 'has_fact', fun_facts)
+            create_relationship(location, 'has_fact', fun_facts)
 
             transaction.commit()
 
