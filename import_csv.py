@@ -1,3 +1,14 @@
+"""
+import_csv.py
+Eddie Chapman
+
+This script creates a Neo4j graph database for the "Film Locations in
+San Francisco" dataset using a CSV file.
+
+Dataset:
+https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am
+"""
+
 from csv import DictReader
 import os
 from py2neo import Graph, Node, NodeMatcher, Relationship
