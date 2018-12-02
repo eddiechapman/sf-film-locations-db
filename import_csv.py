@@ -12,41 +12,49 @@ def set_working_directory():
     os.chdir(dir_name)
 
 
+def find_node(label, value):
+    """
+    Attempt to return a node that matches the specified values.
+
+    The if/else statements address confusing difficulties
+    passing the attribute key name to the match argument.
+    """
+    if label is 'film':
+        return matcher.match(label, title=value).first()
+    elif label is 'fun_facts':
+        return matcher.match(label, fun_facts=value).first()
+    else:
+        return matcher.match(label, name=value).first()
+
+
+def create_node(label, value):
+    """
+    Create a new node using the specified values.
+
+    The if/else statements address confusing difficulties
+    passing the attribute key name to the match argument.
+    """
+    if label is 'film':
+        return Node(label, title=value)
+    elif label is 'fun_facts':
+        return Node(label, fun_facts=value)
+    else:
+        return Node(label, name=value)
+
+
 def find_or_create_node(label, value):
     """
     Return a node by retrieving or creating one using CSV values.
+
     Returns none when CSV cell value is blank.
     New nodes are merged with the database.
     """
     if value in (None, ''):
         return None
-
-    # For some reason the attribute name (title, fun_facts, or name) would not work when
-    # a function parameter was used. So this a dumb repetitive work around.
-    if label is 'film':
-        match = matcher.match(label, title=value)
-        if match.first() is None:
-            node = Node(label, title=value)
-            transaction.create(node)
-        else:
-            node = match.first()
-
-    elif label is 'fun_facts':
-        match = matcher.match(label, fun_facts=value)
-        if match.first() is None:
-            node = Node(label, fun_facts=value)
-            transaction.create(node)
-        else:
-            node = match.first()
-
-    else:
-        match = matcher.match(label, name=value)
-        if match.first() is None:
-            node = Node(label, name=value)
-            transaction.create(node)
-        else:
-            node = match.first()
-
+    node = find_node(label, value)
+    if node is None:
+        node = create_node(label, value)
+        transaction.create(node)
     return node
 
 
@@ -73,6 +81,7 @@ def create_relationship(node1, relationship_type, node2):
 if __name__ == '__main__':
     set_working_directory()
 
+    # Database authentication
     graph = Graph("bolt://000000", auth=('neo4j', 'test'))
 
     # Use to retrieve existing nodes
