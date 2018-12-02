@@ -55,7 +55,7 @@ def create_relationship(node1, relationship_type, node2):
 if __name__ == '__main__':
     set_working_directory()
 
-    graph = Graph(password='test')
+    graph = Graph("bolt://localhost:7687", auth=('neo4j', 'test'))
 
     # Use to retrieve existing nodes
     matcher = NodeMatcher(graph)
