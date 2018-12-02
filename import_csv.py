@@ -60,7 +60,7 @@ if __name__ == '__main__':
     # Use to retrieve existing nodes
     matcher = NodeMatcher(graph)
 
-    with open('Film_Locations_In_San_Francisco.csv') as csv_file:
+    with open('Film_Locations_in_San_Francisco.csv') as csv_file:
         reader = DictReader(csv_file)
         for row in reader:
 
