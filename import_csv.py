@@ -93,7 +93,10 @@ if __name__ == '__main__':
     set_working_directory()
 
     # Database authentication
-    graph = Graph("bolt://000000", auth=('neo4j', 'test'))
+    graph = Graph("bolt://localhost:7687", auth=('neo4j', 'test'))
+
+    # Clear existing nodes and relationships
+    graph.delete_all()
 
     # Use to retrieve existing nodes
     matcher = NodeMatcher(graph)
