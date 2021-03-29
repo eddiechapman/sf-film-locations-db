@@ -1,5 +1,5 @@
 Click==7.0
-Pygments==2.3.0
+Pygments==2.7.4
 atomicwrites==1.2.1
 attrs==18.2.0
 backcall==0.1.0
